@@ -1,69 +1,66 @@
 import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
-import { CardContent, Typography } from '@mui/material';
+import { CardContent, Typography, Box } from '@mui/material';
 import Sports from './sports.jpg'
+import { Link } from 'react-router-dom';
 
 const style = {
-    container: {
+    category: {
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: "90vh",
-        alignItems: 'center',
         justifyContent: 'center',
-    },
-    title:{
-      marginBottom:'1.5rem'
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: "3rem"
     },
     card: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundImage: `url(${Sports})`,
-        width: "250px",
-        height: "280px",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        marginBottom: '1.5rem'
+        width: "200px",
+        height: "200px",
+        padding: "20px",
+        border: "1px solid black",
+        borderRadius: "10px"
     },
-    content: {
-
-        color: 'black',
-        fontSize: "3rem"
+    color1: {
+        background: "#5DFDCB"
+    },
+    color2: {
+        background: "#CE84AD"
+    },
+    color3: {
+        background: "#D1D646"
     }
+
 }
 
 const Home = () => {
 
     return (
-        <Container sx={style.container} >
-            <Typography sx={style.title} align="center" variant="h4">Categories</Typography>
+        <Box>
+            <Typography align="center" variant="h3" sx={{ marginTop: "2rem" }}>Welcome To Quiz Master</Typography>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', width: "95%" }}>
+            <Box sx={{
+                display: 'flex', flexDirection: 'column', minHeight: '70vh', justifyContent: 'center',
+                alignItems: 'center'}}>
+                <Typography sx={{marginBottom:"1.5rem"}} align="center" variant="h4" >Categories</Typography>
+                <Box sx={style.category}>
 
+                    <Box sx={style.card}>
+                        <Link to="/rules?category=General-Knowledge">  <Typography variant="h6">General Knowledge</Typography> </Link>
+                    </Box>
+                    <Box sx={style.card}>
 
-                <Card sx={style.card}>
-                    <CardContent sx={style.content}>
-                        Sports
-                    </CardContent>
-                </Card>
+                        <Link to="/rules?category=Computers"> <Typography variant="h6">Computer Science</Typography></Link>
+                    </Box>
+                    <Box sx={style.card}>
+                        <Link to="/rules?category=Books"> <Typography variant="h6">Books</Typography></Link>
+                    </Box>
 
-                <Card sx={style.card}>
-                    <CardContent sx={style.content}>
-                        Sports
-                    </CardContent>
-                </Card>
-                <Card sx={style.card}>
-                    <CardContent sx={style.content}>
-                        Sports
-                    </CardContent>
-                </Card>
-                <Card sx={style.card}>
-                    <CardContent sx={style.content}>
-                        Sports
-                    </CardContent>
-                </Card>
-            </div>
-        </Container>
+                </Box>
+            </Box>
+        </Box>
+
     );
 }
 

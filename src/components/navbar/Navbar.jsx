@@ -34,7 +34,7 @@ const Navbar = () => {
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={handleClose}>Play As Guest</MenuItem>
+            {/* <MenuItem onClick={handleClose}>Play As Guest</MenuItem> */}
             <MenuItem onClick={handleClose}>World Leader Board</MenuItem>
             <MenuItem onClick={handleClose}>Signup</MenuItem>
             <MenuItem onClick={handleClose}>Login</MenuItem>
@@ -55,7 +55,7 @@ const Navbar = () => {
                         <MenuIcon />
                     </IconButton> */}
                     <Typography variant="h4" component="div" sx={{ flexGrow: 1, fontWeight: 400 }}>
-                        Quiz Mania
+                        Quiz Master
                     </Typography>
                     <IconButton
                         color="inherit"
