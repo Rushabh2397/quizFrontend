@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
 import { Box, Button, Chip, Paper, Typography } from "@mui/material";
-import { useState } from "react";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
-
-
+import { useQuiz } from '../../context/QuizContext'
+import { useLocation, useHistory } from 'react-router-dom'
+import Loader from '../loader/Loader'
+import { userQuiz } from '../api'
 
 
 
@@ -18,6 +19,17 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Quiz = () => {
     const matches = useMediaQuery('(min-width:1000px)');
+    let query = useQuery();
+    const history = useHistory();
+    let category = query.get('category');
+    let diffculty = query.get('diffculty')
+    const { quiz, quizDispatch } = useQuiz();
+    const [quesCount, setQuesCount] = useState(0)
+    const [loading, setLoading] = useState(false)
+    console.log("diffculty",diffculty)
+    function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    }
 
     const style = {
         rulesContainer: {
@@ -27,39 +39,69 @@ const Quiz = () => {
         },
         paper: {
             padding: "20px",
-            width: `${matches ? "50%" :"300px"}`,
+            width: `${matches ? "50%" : "300px"}`,
             margin: "0 auto",
-    
+
         },
     }
 
+    const getUserQuiz = async () => {
+        try {
+            setLoading(true)
+            let quizCategory = category === 'General-Knowledge' ? 'General Knowledge' : category
+            const res = await userQuiz({ category: quizCategory,diffculty:diffculty })
+            quizDispatch({ type: 'SET_QUIZ', payload: res.data.data })
+            setLoading(false)
+        } catch (error) {
+
+        }
+    }
+
+    const handleNext = ()=>{
+        let totalQuestion = quiz.quiz.length;
+        if(quesCount<totalQuestion-1){
+            setQuesCount(quesCount+1)
+        }
+    }
+
+    useEffect(() => {
+        getUserQuiz()
+    }, [])
+
     return (
         <div>
-            <Box sx={style.rulesContainer}>
+            {
+                
+                quiz.quiz.length > 0 && <Box sx={style.rulesContainer}>
 
-                <Paper sx={style.paper} elevation={5}>
-                    <Box></Box>
-                    <Typography variant="h6">Q.The novel Of Mice And Men was written by what author ? </Typography>
-                    <FormControl component="fieldset">
+                            <Paper sx={style.paper} elevation={5}>
+                                {quesCount}
+                                <Typography variant="h6">Q.{quiz.quiz[quesCount].question} </Typography>
+                                <FormControl component="fieldset">
 
-                        <RadioGroup sx={{ display: "flex", flexDirection:`${matches ? "row":"column"}` }} row aria-label="gender" name="row-radio-buttons-group">
-                            <FormControlLabel value="female" control={<Radio />} label="Female" />
-                          
-                            <FormControlLabel value="male" control={<Radio />} label="Male" />
-                            <FormControlLabel value="other" control={<Radio />} label="Other" />
-                            <FormControlLabel
-                                value="disabled"
-                                control={<Radio />}
-                                label="other"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                    <Box sx={{width:"100%",display:'flex',justifyContent:'flex-end'}}>
-                        <Button color="secondary" variant="contained">Next</Button>
-                    </Box>
+                                    <RadioGroup sx={{ display: "flex", flexDirection: `${matches ? "row" : "column"}` }} row aria-label="gender" name="row-radio-buttons-group">
+                                        <FormControlLabel value={`${quiz.quiz[quesCount].options[0]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[0]}`} />
 
-                </Paper>
-            </Box>
+                                        <FormControlLabel value={`${quiz.quiz[quesCount].options[1]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[1]}`} />
+                                        <FormControlLabel value={`${quiz.quiz[quesCount].options[2]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[2]}`} />
+                                        <FormControlLabel
+                                            value={`${quiz.quiz[quesCount].options[3]}`}
+                                            control={<Radio />}
+                                            label={`${quiz.quiz[quesCount].options[3]}`}
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+                                <Box sx={{ width: "100%", display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button color="secondary" variant="contained" onClick={handleNext}>Next</Button>
+                                </Box>
+
+                            </Paper>
+                        </Box>
+
+                    
+                  
+            }
+            {loading && <Loader loading={loading} />}
         </div>
 
     );

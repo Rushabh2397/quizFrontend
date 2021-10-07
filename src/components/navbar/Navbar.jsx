@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import {Link} from 'react-router-dom'
 
 
 
@@ -35,9 +35,9 @@ const Navbar = () => {
             }}
         >
             {/* <MenuItem onClick={handleClose}>Play As Guest</MenuItem> */}
-            <MenuItem onClick={handleClose}>World Leader Board</MenuItem>
-            <MenuItem onClick={handleClose}>Signup</MenuItem>
-            <MenuItem onClick={handleClose}>Login</MenuItem>
+            <Link to="/"><MenuItem onClick={handleClose}>World Leader Board</MenuItem></Link>
+            <Link to="/signup"><MenuItem onClick={handleClose}>Signup</MenuItem></Link>
+            <Link to="/login"><MenuItem onClick={handleClose}>Login</MenuItem></Link>
         </Menu>
     }
 
