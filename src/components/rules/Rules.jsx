@@ -63,7 +63,7 @@ const Rules = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Chip color="primary" label="Easy" variant={diffculty === 'easy' ? "filled" : "outlined"} onClick={() => { selectDiffculty('easy') }} />
                     <Chip color="secondary" label="Medium" variant={diffculty === 'medium' ? "filled" : "outlined"} onClick={() => { selectDiffculty('medium') }} />
-                    <Chip color="warning" label="Diffcult" variant={diffculty === 'diffcult' ? "filled" : "outlined"} onClick={() => { selectDiffculty('diffcult') }} />
+                    <Chip color="warning" label="Diffcult" variant={diffculty === 'hard' ? "filled" : "outlined"} onClick={() => { selectDiffculty('hard') }} />
                 </Box>
                 <Grid align="center" sx={{ marginTop: "0.8rem" }}>
                     <Button variant="contained" size="large" color="secondary" onClick={onStart}>Start</Button>

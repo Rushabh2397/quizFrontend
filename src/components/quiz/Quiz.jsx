@@ -10,6 +10,8 @@ import { useQuiz } from '../../context/QuizContext'
 import { useLocation, useHistory } from 'react-router-dom'
 import Loader from '../loader/Loader'
 import { userQuiz } from '../api'
+import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
 
 
 
@@ -26,7 +28,8 @@ const Quiz = () => {
     const { quiz, quizDispatch } = useQuiz();
     const [quesCount, setQuesCount] = useState(0)
     const [loading, setLoading] = useState(false)
-    console.log("diffculty",diffculty)
+    const [progress, setProgress] = useState(0);
+
     function useQuery() {
         return new URLSearchParams(useLocation().search);
     }
@@ -37,19 +40,19 @@ const Quiz = () => {
             minHeight: "90vh",
             alignItems: "center"
         },
-        paper: {
-            padding: "20px",
-            width: `${matches ? "50%" : "300px"}`,
-            margin: "0 auto",
+        // paper: {
+        //     padding: "20px",
+        //     width: `${matches ? "50%" : "300px"}`,
+        //     margin: "0 auto",
 
-        },
+        // },
     }
 
     const getUserQuiz = async () => {
         try {
             setLoading(true)
             let quizCategory = category === 'General-Knowledge' ? 'General Knowledge' : category
-            const res = await userQuiz({ category: quizCategory,diffculty:diffculty })
+            const res = await userQuiz({ category: quizCategory, diffculty: diffculty })
             quizDispatch({ type: 'SET_QUIZ', payload: res.data.data })
             setLoading(false)
         } catch (error) {
@@ -57,10 +60,15 @@ const Quiz = () => {
         }
     }
 
-    const handleNext = ()=>{
+    const handleNext = () => {
         let totalQuestion = quiz.quiz.length;
-        if(quesCount<totalQuestion-1){
-            setQuesCount(quesCount+1)
+        if (quesCount < totalQuestion - 1) {
+            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+
+
+            setQuesCount(quesCount + 1)
+        } else {
+            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
         }
     }
 
@@ -71,38 +79,139 @@ const Quiz = () => {
     return (
         <div>
             {
-                
+
                 quiz.quiz.length > 0 && <Box sx={style.rulesContainer}>
 
-                            <Paper sx={style.paper} elevation={5}>
-                                {quesCount}
-                                <Typography variant="h6">Q.{quiz.quiz[quesCount].question} </Typography>
-                                <FormControl component="fieldset">
+                    <Paper sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: "0 auto",
+                        padding: {
+                            xs: "1rem",
+                            sm: "1rem",
+                            md: "1rem",
+                            xl: "2rem"
+                        },
+                        width: {
+                            xs: "80%",
+                            sm: "80%",
+                            md: "80%",
+                            xl: "70%"
+                        }
+                    }} elevation={5}>
+                        <Box sx={{ position: 'relative', width: '90%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: "10px", }}>
 
-                                    <RadioGroup sx={{ display: "flex", flexDirection: `${matches ? "row" : "column"}` }} row aria-label="gender" name="row-radio-buttons-group">
-                                        <FormControlLabel value={`${quiz.quiz[quesCount].options[0]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[0]}`} />
 
-                                        <FormControlLabel value={`${quiz.quiz[quesCount].options[1]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[1]}`} />
-                                        <FormControlLabel value={`${quiz.quiz[quesCount].options[2]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[2]}`} />
-                                        <FormControlLabel
-                                            value={`${quiz.quiz[quesCount].options[3]}`}
-                                            control={<Radio />}
-                                            label={`${quiz.quiz[quesCount].options[3]}`}
-                                        />
-                                    </RadioGroup>
-                                </FormControl>
-                                <Box sx={{ width: "100%", display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Button color="secondary" variant="contained" onClick={handleNext}>Next</Button>
-                                </Box>
+                            <CircularProgress sx={{ position: 'absolute', }} size={65} thickness={2} variant="determinate" value={100} />
 
-                            </Paper>
+
+                            <Box style={{textAlign:'center'}}>40</Box>
+                        </Box>
+                        <Box
+                            // sx={{
+                            //     width: "95%"
+                            // }}
+                            sx={{
+                                marginBottom: "1rem",
+                                marginTop: "1rem",
+                                width: "80%",
+                                padding: "5px 6px 5px 0px",
+                                fontSize: {
+                                    xs: "1rem",
+                                    sm: "1rem",
+                                    xl: "1.5rem"
+                                },
+                                fontFamily: 'Poppins',
+                                fontWeight: 600,
+                                wordBreak: 'break-all',
+                                //wordWrap: "break-word",
+
+                                "- webkit - hyphens": "auto",
+                                "-ms-hyphens": "auto",
+                                hyphens: "auto"
+
+                            }}
+                        >
+                            {/* <Typography variant="h6">Q.{quiz.quiz[quesCount].question} </Typography>  */}
+                            Q.{quiz.quiz[quesCount].question}
                         </Box>
 
-                    
-                  
+                        {/* <FormControl component="fieldset"> */}
+
+                        <Box
+                            sx={{
+                                border: "1px solid black",
+                                borderRadius: "5px",
+                                padding: "5px 10px 5px 10px",
+                                marginBottom: "1rem",
+                                marginTop: "1rem",
+                                width: "80%"
+                            }}
+                        >
+                            <FormControlLabel value={`${quiz.quiz[quesCount].options[0]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[0]}`} />
+                        </Box>
+
+                        <Box
+                            sx={{
+                                border: "1px solid black",
+                                borderRadius: "5px",
+                                padding: "5px 8px 5px 8px",
+                                marginBottom: "1rem",
+                                width: "80%"
+                            }}
+                        >
+                            <FormControlLabel value={`${quiz.quiz[quesCount].options[1]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[1]}`} />
+                        </Box>
+                        <Box
+                            sx={{
+                                border: "1px solid black",
+                                borderRadius: "5px",
+                                padding: "5px 8px 5px 8px",
+                                marginBottom: "1rem",
+                                width: "80%"
+                            }}
+                        >
+                            <FormControlLabel value={`${quiz.quiz[quesCount].options[2]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[2]}`} />
+                        </Box>
+
+                        <Box
+                            sx={{
+                                border: "1px solid black",
+                                borderRadius: "5px",
+                                padding: "5px 8px 5px 8px",
+                                marginBottom: "1rem",
+                                width: "80%"
+                            }}
+                        >
+                            <FormControlLabel value={`${quiz.quiz[quesCount].options[3]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[3]}`} />
+                        </Box>
+
+                        {/* <RadioGroup sx={{ display: "flex", flexDirection: `${matches ? "row" : "column"}` }} row aria-label="gender" name="row-radio-buttons-group">
+                                <FormControlLabel value={`${quiz.quiz[quesCount].options[0]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[0]}`} />
+
+                                <FormControlLabel value={`${quiz.quiz[quesCount].options[1]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[1]}`} />
+                                <FormControlLabel value={`${quiz.quiz[quesCount].options[2]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[2]}`} />
+                                <FormControlLabel
+                                    value={`${quiz.quiz[quesCount].options[3]}`}
+                                    control={<Radio />}
+                                    label={`${quiz.quiz[quesCount].options[3]}`}
+                                />
+                            </RadioGroup> */}
+                        {/* </FormControl> */}
+                        <Box sx={{ width: '90%', display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button color="primary" variant="contained" onClick={handleNext}>Next</Button>
+                        </Box>
+
+                    </Paper>
+                </Box>
+
+
+
             }
-            {loading && <Loader loading={loading} />}
-        </div>
+            { loading && <Loader loading={loading} />}
+        </div >
 
     );
 }
