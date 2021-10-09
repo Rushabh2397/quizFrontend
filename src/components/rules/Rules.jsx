@@ -2,6 +2,7 @@ import { Box, Button, Chip, Paper, Typography, Grid } from "@mui/material";
 import { useState } from "react";
 import { useLocation, useHistory } from 'react-router-dom'
 import Loader from '../loader/Loader'
+import toast from 'react-hot-toast'
 
 const style = {
     rulesContainer: {
@@ -40,7 +41,11 @@ const Rules = () => {
     const onStart = async () => {
         try {
             if (diffculty === '') {
-                alert('Select diffculty')
+                //alert('Select diffculty')
+                toast.error('Select Difficulty Level',{
+                    position:'top-center',
+                    duration:1500
+                })
             } else {
                 //setLoading(true)
                 //let quizCategory = category === 'General-Knowledge' ? 'General Knowledge' : category
@@ -52,6 +57,7 @@ const Rules = () => {
 
         } catch (error) {
             setLoading(false)
+            toast.error('Something Went Wrong')
         }
     }
 
