@@ -1,7 +1,5 @@
 import { Box, Button, Chip, Paper, Typography, Grid } from "@mui/material";
 import { useState } from "react";
-import { userQuiz } from '../api'
-import { useQuiz } from '../../context/QuizContext'
 import { useLocation, useHistory } from 'react-router-dom'
 import Loader from '../loader/Loader'
 
@@ -27,7 +25,6 @@ const Rules = () => {
     let query = useQuery();
     const history = useHistory();
     let category = query.get('category');
-    const { quizDispatch } = useQuiz();
     const [diffculty, setDiffculty] = useState('');
     const [loading, setLoading] = useState(false)
 
@@ -41,7 +38,7 @@ const Rules = () => {
                 alert('Select diffculty')
             } else {
                 //setLoading(true)
-                let quizCategory = category === 'General-Knowledge' ? 'General Knowledge' : category
+                //let quizCategory = category === 'General-Knowledge' ? 'General Knowledge' : category
                 //const res = await userQuiz({ category: quizCategory, diffculty: diffculty })
                 //quizDispatch({ type: 'SET_QUIZ', payload: res.data.data })
                 //setLoading(false)

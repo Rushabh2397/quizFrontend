@@ -19,7 +19,7 @@ const authReducer = (state, action) => {
 
                 name: '',
                 email: '',
-                token: false
+                token: ''
             }
 
         default:

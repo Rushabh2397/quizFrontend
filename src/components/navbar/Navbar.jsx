@@ -7,21 +7,28 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {Link, NavLink} from 'react-router-dom'
+import {NavLink,useHistory} from 'react-router-dom'
 import {useAuth} from '../../context/AuthContext'
 
 
 const Navbar = () => {
     
-    const {user} = useAuth();
+    const {user,userDispatch} = useAuth();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const history = useHistory()
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const logout = ()=>{
+        userDispatch({type:'LOGOUT_SUCCESS'})
+        localStorage.removeItem("quizMaster")
+        history.push('/home')
+    }
 
     const profileMenu = () => {
         return <Menu
@@ -34,11 +41,11 @@ const Navbar = () => {
             }}
         >
             {/* <MenuItem onClick={handleClose}>Play As Guest</MenuItem> */}
-            <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/"><MenuItem onClick={handleClose}>World Ranking</MenuItem></NavLink>
+            <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/select/category"><MenuItem onClick={handleClose}>World Ranking</MenuItem></NavLink>
             {!user.token && <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/signup"><MenuItem onClick={handleClose}>Signup</MenuItem></NavLink>}
             {!user.token && <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/login"><MenuItem onClick={handleClose}>Login</MenuItem></NavLink>}
             {user.token && <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/scoreboard"><MenuItem onClick={handleClose}>Scoreboard</MenuItem></NavLink>}
-            {user.token && <MenuItem onClick={handleClose}>Logout</MenuItem>}
+            {user.token && <MenuItem onClick={()=>{handleClose();logout()}}>Logout</MenuItem>}
 
         </Menu>
     }

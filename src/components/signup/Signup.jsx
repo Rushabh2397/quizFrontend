@@ -69,8 +69,11 @@ const Signup = () => {
             if (formValidated) {
                 setLoading(true)
                 const res = await userSignup({ name: name.name, email: email.email, password: password.password })
+                if(res.data.status==='success'){
+                    history.push('/login')
+                }
                 setLoading(false)
-                history.push('/login')
+                
             }
         } catch (error) {
             setLoading(false)

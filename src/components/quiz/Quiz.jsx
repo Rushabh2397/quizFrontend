@@ -69,17 +69,22 @@ const Quiz = () => {
             setQuesCount(quesCount + 1)
             setSelectedValue('')
         } else {
+            let finalScore = score
+            if (selectedValue) {
+                finalScore = quiz.quiz[quesCount].correct_answer === selectedValue ? score + 4 : score - 1
+            }
+
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
-            submitQuiz()
+            submitQuiz(finalScore)
         }
     }
 
-    const submitQuiz = async () => {
+    const submitQuiz = async (finalScore) => {
         try {
             setLoading(true)
-            const res = await addUserScore({category:category,difficulty:diffculty,score:score})
+            await addUserScore({ category: category, difficulty: diffculty, score: finalScore })
             setLoading(false)
-            history.push(`/score?category=${category}&difficulty=${diffculty}&score=${score}`)   
+            history.push(`/score?category=${category}&difficulty=${diffculty}&score=${finalScore}`)
         } catch (error) {
             setLoading(false)
         }
@@ -91,6 +96,7 @@ const Quiz = () => {
 
     useEffect(() => {
         getUserQuiz()
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -118,10 +124,10 @@ const Quiz = () => {
                             xl: "70%"
                         }
                     }} elevation={5}>
-                        <Box sx={{ position: 'relative', width: '90%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: "10px", }}>
+                        <Box sx={{ position: 'relative', width: '90%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: "10px", marginTop: "5px" }}>
 
 
-                            <CircularProgress sx={{ position: 'absolute', }} size={65} thickness={2} variant="determinate" value={100} />
+                            <CircularProgress sx={{ position: 'absolute', right: "-25px" }} size={60} thickness={2} variant="determinate" value={progress} />
 
 
                             <Box style={{ textAlign: 'center' }}>{score}</Box>

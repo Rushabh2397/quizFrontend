@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import { Box, Button, Paper, Typography } from "@mui/material";
-import { useLocation, useHistory, NavLink } from 'react-router-dom'
+import { Box, Button,Typography } from "@mui/material";
+import { useLocation,  NavLink } from 'react-router-dom'
 
 
 
@@ -13,11 +12,9 @@ function useQuery() {
 const Score = () => {
 
     let query = useQuery();
-    const history = useHistory();
     let category = query.get('category');
     let diffculty = query.get('difficulty')
     let score = query.get('score')
-    const [loading, setLoading] = useState(false);
 
 
 

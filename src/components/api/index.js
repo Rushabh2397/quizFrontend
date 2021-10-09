@@ -20,3 +20,7 @@ export const addUserScore = (data)=>{
 export const getUserScorecard = (data)=>{
     return axios.get(`${process.env.REACT_APP_BACKEND}user/api/get_user_scorecard`)
 }
+
+export const getWorldScoreBoard = (data)=>{
+    return axios.post(`${process.env.REACT_APP_BACKEND}quiz/auth/get_world_scoreboard`,data)
+}

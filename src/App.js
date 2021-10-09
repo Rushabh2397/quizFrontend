@@ -6,6 +6,8 @@ import Rules from './components/rules/Rules'
 import Quiz from './components/quiz/Quiz'
 import Score from './components/score/Score'
 import Scoreboard from './components/scoreboard/Scoreboard'
+import WorldScoreBoard from './components/worldScoreBoard/WorldScoreBoard'
+import Category from './components/category/Category'
 import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute'
 import './config/AxiosConfig'
@@ -17,13 +19,15 @@ function App() {
       <Navbar />
       {/* <Home/> */}
       {/* <Quiz/> */}
-
-
+      {/* <WorldScoreBoard/> */}
+      {/* <Category/> */}
       <Switch>
         {/* <Route path='/' component={Home} exact></Route> */}
         <Route path='/home' component={Home} exact></Route>
         <Route path='/signup' component={Signup} exact />
         <Route path='/login' component={Login} exact />
+        <Route path='/select/category' component={Category} exact/>
+        <Route path='/world/scoreboard' component={WorldScoreBoard} exact></Route>
         <PrivateRoute path='/rules' component={Rules} exact ></PrivateRoute>
         <PrivateRoute path='/quiz' component={Quiz}></PrivateRoute>
         <PrivateRoute path='/score' component={Score} exact ></PrivateRoute>

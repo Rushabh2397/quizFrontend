@@ -44,11 +44,11 @@ const Home = () => {
                 }}>
 
                     <Box sx={style.card} style={{background:'#AE70FA'}}>
-                        <NavLink to="/rules?category=General-Knowledge" style={{ textDecoration: "none", listStyle: "none", color: 'black', fontSize: '1.8rem', letterSpacing: '0.2rem' }} >General Knowledge</NavLink>
+                        <NavLink to="/rules?category=General-Knowledge" style={{ textDecoration: "none", listStyle: "none", color: 'black', fontSize:"1.8rem", letterSpacing: '0.2rem' }} >General Knowledge</NavLink>
                     </Box>
                     <Box sx={style.card} style={{background:'#69A2B0'}}>
 
-                        <NavLink to="/rules?category=Computer" style={{ textDecoration: "none", listStyle: "none", color: 'black', fontSize: '1.8rem', letterSpacing: '0.2rem' }} > Computer Science</NavLink>
+                        <NavLink to="/rules?category=Computers" style={{ textDecoration: "none", listStyle: "none", color: 'black', fontSize: '1.8rem', letterSpacing: '0.2rem' }} > Computer Science</NavLink>
                     </Box>
                     <Box sx={style.card}>
                         <NavLink to="/rules?category=Books" style={{ textDecoration: "none", listStyle: "none", color: 'black', fontSize: '2rem', letterSpacing: '0.2rem' }} > Books</NavLink>
