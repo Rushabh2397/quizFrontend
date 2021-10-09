@@ -63,8 +63,8 @@ const Navbar = () => {
                     >
                         <MenuIcon />
                     </IconButton> */}
-                    <Typography variant="h4" component="div" sx={{ flexGrow: 1, fontWeight: 400 }}>
-                        Quiz Master
+                    <Typography variant="h4" component="div" sx={{ flexGrow: 1, fontWeight: 600,fontSize:{xs:"1.6rem",lg:"2.5rem"} }}>
+                        <NavLink to="/home" style={{textDecoration:'none',listStyle:'none',color:"black",cursor:'pointer'}}>Quiz Master</NavLink>
                     </Typography>
                     <IconButton
                         color="inherit"

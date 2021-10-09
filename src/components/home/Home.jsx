@@ -24,7 +24,7 @@ const Home = () => {
 
     return (
         <Box>
-            <Typography align="center" variant="h3" sx={{ marginTop: "2rem" }}>Welcome To Quiz Master</Typography>
+            <Typography align="center" gutterBottom={1} variant="h3" sx={{ marginTop: "2rem",fontSize:{xs:"1.8rem",lg:"2.5rem"} }}>Welcome To Quiz Master</Typography>
 
             <Box sx={{
                 display: 'flex',
@@ -33,7 +33,7 @@ const Home = () => {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Typography sx={{ marginBottom: "1.5rem" }} align="center" variant="h4" >Categories</Typography>
+                <Typography sx={{ marginBottom: "1.5rem",fontSize:{xs:"1.5rem",lg:"2rem"} }} align="center" variant="h4" >Categories</Typography>
                 <Box sx={{
                     display: 'flex',
                     justifyContent: 'center',
