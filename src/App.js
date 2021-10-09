@@ -17,12 +17,9 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      {/* <Home/> */}
-      {/* <Quiz/> */}
-      {/* <WorldScoreBoard/> */}
-      {/* <Category/> */}
+    
       <Switch>
-        {/* <Route path='/' component={Home} exact></Route> */}
+        <Route path='/' component={Home} exact></Route>
         <Route path='/home' component={Home} exact></Route>
         <Route path='/signup' component={Signup} exact />
         <Route path='/login' component={Login} exact />
