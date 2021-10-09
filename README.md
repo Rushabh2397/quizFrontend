@@ -1,3 +1,28 @@
+Live Project [URL](https://rquizmaster.netlify.app/)
+
+[Project Source Server](https://github.com/Rushabh2397/quizBackend)
+
+## Description
+Master Quiz is an place(webapp) where your brain can have workout and also have fun.It has features like quiz with differnet difficulty levels(easy,medium,hard) & categories,scoreboard,World Leaderboard,Signup and Login.
+
+### Features
+
+- Login
+- SignUp
+- Quiz with Categoeries and different difficulty level
+- Score board
+- World Leader Board
+
+## Tech Stack
+
+- Mongodb
+- Express
+- Node
+- React
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
