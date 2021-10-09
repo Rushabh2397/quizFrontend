@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Chip, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper } from "@mui/material";
 import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useQuiz } from '../../context/QuizContext'
 import { useLocation, useHistory } from 'react-router-dom'
 import Loader from '../loader/Loader'
 import { userQuiz } from '../api'
 import CircularProgress from '@mui/material/CircularProgress';
-import Stack from '@mui/material/Stack';
+import { addUserScore } from '../api'
 
 
 
@@ -20,14 +16,15 @@ import Stack from '@mui/material/Stack';
 
 
 const Quiz = () => {
-    const matches = useMediaQuery('(min-width:1000px)');
     let query = useQuery();
     const history = useHistory();
     let category = query.get('category');
     let diffculty = query.get('diffculty')
     const { quiz, quizDispatch } = useQuiz();
-    const [quesCount, setQuesCount] = useState(0)
-    const [loading, setLoading] = useState(false)
+    const [quesCount, setQuesCount] = useState(0);
+    const [selectedValue, setSelectedValue] = useState('');
+    const [score, setScore] = useState(0);
+    const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState(0);
 
     function useQuery() {
@@ -56,20 +53,40 @@ const Quiz = () => {
             quizDispatch({ type: 'SET_QUIZ', payload: res.data.data })
             setLoading(false)
         } catch (error) {
-
+            setLoading(false)
         }
     }
 
     const handleNext = () => {
+
         let totalQuestion = quiz.quiz.length;
+        if (selectedValue) {
+            setScore((prevScore) => (quiz.quiz[quesCount].correct_answer === selectedValue ? prevScore + 4 : prevScore - 1))
+        }
+
         if (quesCount < totalQuestion - 1) {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
-
-
             setQuesCount(quesCount + 1)
+            setSelectedValue('')
         } else {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+            submitQuiz()
         }
+    }
+
+    const submitQuiz = async () => {
+        try {
+            setLoading(true)
+            const res = await addUserScore({category:category,difficulty:diffculty,score:score})
+            setLoading(false)
+            history.push(`/score?category=${category}&difficulty=${diffculty}&score=${score}`)   
+        } catch (error) {
+            setLoading(false)
+        }
+    }
+
+    const handleChange = (value) => {
+        setSelectedValue(value)
     }
 
     useEffect(() => {
@@ -107,12 +124,9 @@ const Quiz = () => {
                             <CircularProgress sx={{ position: 'absolute', }} size={65} thickness={2} variant="determinate" value={100} />
 
 
-                            <Box style={{textAlign:'center'}}>40</Box>
+                            <Box style={{ textAlign: 'center' }}>{score}</Box>
                         </Box>
                         <Box
-                            // sx={{
-                            //     width: "95%"
-                            // }}
                             sx={{
                                 marginBottom: "1rem",
                                 marginTop: "1rem",
@@ -134,7 +148,6 @@ const Quiz = () => {
 
                             }}
                         >
-                            {/* <Typography variant="h6">Q.{quiz.quiz[quesCount].question} </Typography>  */}
                             Q.{quiz.quiz[quesCount].question}
                         </Box>
 
@@ -150,7 +163,13 @@ const Quiz = () => {
                                 width: "80%"
                             }}
                         >
-                            <FormControlLabel value={`${quiz.quiz[quesCount].options[0]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[0]}`} />
+                            <FormControlLabel
+                                value={`${quiz.quiz[quesCount].options[0]}`}
+                                control={<Radio />}
+                                label={`${quiz.quiz[quesCount].options[0]}`}
+                                onChange={() => { handleChange(`${quiz.quiz[quesCount].options[0]}`) }}
+                                checked={selectedValue === `${quiz.quiz[quesCount].options[0]}`}
+                            />
                         </Box>
 
                         <Box
@@ -162,7 +181,14 @@ const Quiz = () => {
                                 width: "80%"
                             }}
                         >
-                            <FormControlLabel value={`${quiz.quiz[quesCount].options[1]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[1]}`} />
+                            <FormControlLabel
+                                value={`${quiz.quiz[quesCount].options[1]}`}
+                                control={<Radio />}
+                                label={`${quiz.quiz[quesCount].options[1]}`}
+                                onChange={() => { handleChange(`${quiz.quiz[quesCount].options[1]}`) }}
+                                checked={selectedValue === `${quiz.quiz[quesCount].options[1]}`}
+                            />
+
                         </Box>
                         <Box
                             sx={{
@@ -173,7 +199,13 @@ const Quiz = () => {
                                 width: "80%"
                             }}
                         >
-                            <FormControlLabel value={`${quiz.quiz[quesCount].options[2]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[2]}`} />
+                            <FormControlLabel
+                                value={`${quiz.quiz[quesCount].options[2]}`}
+                                control={<Radio />}
+                                label={`${quiz.quiz[quesCount].options[2]}`}
+                                onChange={() => { handleChange(`${quiz.quiz[quesCount].options[2]}`) }}
+                                checked={selectedValue === `${quiz.quiz[quesCount].options[2]}`}
+                            />
                         </Box>
 
                         <Box
@@ -185,23 +217,20 @@ const Quiz = () => {
                                 width: "80%"
                             }}
                         >
-                            <FormControlLabel value={`${quiz.quiz[quesCount].options[3]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[3]}`} />
+                            <FormControlLabel
+                                value={`${quiz.quiz[quesCount].options[3]}`}
+                                control={<Radio />}
+                                label={`${quiz.quiz[quesCount].options[3]}`}
+                                onChange={() => { handleChange(`${quiz.quiz[quesCount].options[3]}`) }}
+                                checked={selectedValue === `${quiz.quiz[quesCount].options[3]}`}
+                            />
+
                         </Box>
 
-                        {/* <RadioGroup sx={{ display: "flex", flexDirection: `${matches ? "row" : "column"}` }} row aria-label="gender" name="row-radio-buttons-group">
-                                <FormControlLabel value={`${quiz.quiz[quesCount].options[0]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[0]}`} />
-
-                                <FormControlLabel value={`${quiz.quiz[quesCount].options[1]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[1]}`} />
-                                <FormControlLabel value={`${quiz.quiz[quesCount].options[2]}`} control={<Radio />} label={`${quiz.quiz[quesCount].options[2]}`} />
-                                <FormControlLabel
-                                    value={`${quiz.quiz[quesCount].options[3]}`}
-                                    control={<Radio />}
-                                    label={`${quiz.quiz[quesCount].options[3]}`}
-                                />
-                            </RadioGroup> */}
-                        {/* </FormControl> */}
                         <Box sx={{ width: '90%', display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button color="primary" variant="contained" onClick={handleNext}>Next</Button>
+                            <Button color="primary" variant="contained" onClick={handleNext}>
+                                {quesCount === (quiz.quiz.length - 1) ? 'Finish' : 'Next'}
+                            </Button>
                         </Box>
 
                     </Paper>

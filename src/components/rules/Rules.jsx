@@ -40,11 +40,11 @@ const Rules = () => {
             if (diffculty === '') {
                 alert('Select diffculty')
             } else {
-                setLoading(true)
+                //setLoading(true)
                 let quizCategory = category === 'General-Knowledge' ? 'General Knowledge' : category
-                const res = await userQuiz({ category: quizCategory, diffculty: diffculty })
-                quizDispatch({ type: 'SET_QUIZ', payload: res.data.data })
-                setLoading(false)
+                //const res = await userQuiz({ category: quizCategory, diffculty: diffculty })
+                //quizDispatch({ type: 'SET_QUIZ', payload: res.data.data })
+                //setLoading(false)
                 history.push(`/quiz?category=${category}&diffculty=${diffculty}`)
             }
 

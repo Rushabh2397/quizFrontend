@@ -3,18 +3,17 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {Link} from 'react-router-dom'
-
+import {Link, NavLink} from 'react-router-dom'
+import {useAuth} from '../../context/AuthContext'
 
 
 const Navbar = () => {
-
+    
+    const {user} = useAuth();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -35,9 +34,12 @@ const Navbar = () => {
             }}
         >
             {/* <MenuItem onClick={handleClose}>Play As Guest</MenuItem> */}
-            <Link to="/"><MenuItem onClick={handleClose}>World Leader Board</MenuItem></Link>
-            <Link to="/signup"><MenuItem onClick={handleClose}>Signup</MenuItem></Link>
-            <Link to="/login"><MenuItem onClick={handleClose}>Login</MenuItem></Link>
+            <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/"><MenuItem onClick={handleClose}>World Ranking</MenuItem></NavLink>
+            {!user.token && <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/signup"><MenuItem onClick={handleClose}>Signup</MenuItem></NavLink>}
+            {!user.token && <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/login"><MenuItem onClick={handleClose}>Login</MenuItem></NavLink>}
+            {user.token && <NavLink style={{textDecoration:'none',listStyle:'none',color:"black"}} to="/scoreboard"><MenuItem onClick={handleClose}>Scoreboard</MenuItem></NavLink>}
+            {user.token && <MenuItem onClick={handleClose}>Logout</MenuItem>}
+
         </Menu>
     }
 
