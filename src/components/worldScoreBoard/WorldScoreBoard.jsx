@@ -8,7 +8,8 @@ import { Box, Paper, Typography } from '@mui/material';
 import { getWorldScoreBoard } from '../api'
 import { useEffect, useState } from 'react';
 import {useLocation} from 'react-router-dom'
-
+import Loader from '../loader/Loader'
+import toast from 'react-hot-toast'
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -19,14 +20,18 @@ const WorldScoreBoard = () => {
     const query = useQuery();
     let category = query.get('category');
     const [scoreCard, setScoreCard] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     const getWorldScoreCard = async () => {
         try {
+            setLoading(true)
             const res = await getWorldScoreBoard({category:category});
             setScoreCard(res.data.data)
+            setLoading(false)
 
         } catch (error) {
-
+            setLoading(false)
+            toast.error('Something went wrong!')
         }
     }
 
@@ -85,7 +90,7 @@ const WorldScoreBoard = () => {
 
                 })
             }
-
+            {loading && <Loader loading={loading} />}   
         </Box>
     );
 }

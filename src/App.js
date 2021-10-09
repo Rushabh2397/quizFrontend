@@ -10,12 +10,20 @@ import WorldScoreBoard from './components/worldScoreBoard/WorldScoreBoard'
 import Category from './components/category/Category'
 import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute'
+import { Toaster } from 'react-hot-toast';
 import './config/AxiosConfig'
 import './App.css';
 
 function App() {
   return (
     <div className="App">
+       <Toaster
+        position='top-right'
+        toastOptions={{
+          duration:1500
+        }}
+      />
+
       <Navbar />
     
       <Switch>

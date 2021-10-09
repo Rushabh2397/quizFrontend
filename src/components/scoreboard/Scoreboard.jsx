@@ -7,20 +7,23 @@ import TableRow from '@mui/material/TableRow';
 import { Box, Paper, Typography } from '@mui/material';
 import { getUserScorecard } from '../api'
 import { useEffect, useState } from 'react';
-
-
+import Loader from '../loader/Loader'
+import toast from 'react-hot-toast'
 
 const Scoreboard = () => {
-
+    
+    const [loading, setLoading] = useState(false)
     const [scoreCard, setScoreCard] = useState([]);
 
     const getScoreCard = async () => {
         try {
+            setLoading(true)
             const res = await getUserScorecard();
             setScoreCard(res.data.data)
-
+            setLoading(false)
         } catch (error) {
-
+            setLoading(false)
+            toast.error('Something went wrong!')
         }
     }
 
@@ -73,7 +76,7 @@ const Scoreboard = () => {
 
                 })
             }
-
+         {loading && <Loader loading={loading} />}   
         </Box>
     );
 }
