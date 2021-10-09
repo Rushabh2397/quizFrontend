@@ -11,7 +11,12 @@ const style = {
     },
     paper: {
         padding: "20px",
-        width: "25%",
+        width: {
+            xs:"90%",
+            sm:"50%",
+            md:"25%",
+            lg:"25%"
+        },
         margin: "0 auto",
 
     },
