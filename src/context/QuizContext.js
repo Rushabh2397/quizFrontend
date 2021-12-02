@@ -8,7 +8,6 @@ const QuizContext = createContext();
 const quizReducer = (state, action) => {
     switch (action.type) {
         case 'SET_QUIZ':
-            console.log("a",action.payload)
             return {
                 quiz: action.payload,
                 

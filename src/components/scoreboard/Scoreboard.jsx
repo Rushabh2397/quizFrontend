@@ -4,11 +4,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 import { getUserScorecard } from '../api'
 import { useEffect, useState } from 'react';
 import Loader from '../loader/Loader'
 import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom';
 
 const Scoreboard = () => {
     
@@ -42,7 +43,7 @@ const Scoreboard = () => {
         }}
         >
             {
-                scoreCard && scoreCard.length > 0 && scoreCard.map(score => {
+                scoreCard && scoreCard.length > 0 ? (scoreCard.map(score => {
                     return <Box>
                         <Typography variant="h4" gutterBottom={2}>{score.category}</Typography>
                         <TableContainer   sx={{marginBottom:"1rem",width:{lg:"700px"} }} component={Paper}>
@@ -74,7 +75,10 @@ const Scoreboard = () => {
                         </TableContainer>
                     </Box>
 
-                })
+                })) :(<Box sx={{position:'absolute',top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center"}}>
+                    <Typography variant="h4" sx={{marginBottom:"0.5rem"}}>Haven't yet Played!!</Typography>
+                    <Link to="/home" style={{color:'black',textDecoration:'none'}} > <Button  variant="contained" size="large" > GO Play Quiz </Button></Link>
+                </Box>)
             }
          {loading && <Loader loading={loading} />}   
         </Box>

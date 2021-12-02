@@ -5,7 +5,7 @@ import validator from 'validator';
 import { userLogin } from '../api'
 import Loader from '../loader/Loader'
 import toast from 'react-hot-toast'
-import {useAuth} from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 
 const style = {
     loginContainer: {
@@ -30,7 +30,7 @@ const style = {
 
 
 const Login = () => {
-    const {userDispatch} = useAuth() 
+    const { userDispatch } = useAuth()
     const history = useHistory()
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState({ email: '', err: false, errMsg: '' })
@@ -42,6 +42,22 @@ const Login = () => {
             setEmail({ email: value, err: false, errMsg: '' })
         } else {
             setPassword({ password: value, err: false, errMsg: '' })
+        }
+    }
+
+    const guestLogin = async () => {
+        try {
+            setLoading(true)
+            const res = await userLogin({ email:"guest@yopmail.com", password:"12345678" })
+            toast.success(res.data.message)
+            let user = res.data.data
+            userDispatch({ type: 'LOGIN_SUCCESS', payload: user })
+            localStorage.setItem('quizMaster', JSON.stringify({ name: user.name, email: user.email, token: user.token }))
+            setLoading(false)
+            history.push('/home')
+        } catch (error) {
+            setLoading(false)
+            toast.error(error.response.data.message)
         }
     }
 
@@ -65,8 +81,8 @@ const Login = () => {
                 const res = await userLogin({ email: email.email, password: password.password })
                 toast.success(res.data.message)
                 let user = res.data.data
-                userDispatch({type:'LOGIN_SUCCESS',payload:user}) 
-                localStorage.setItem('quizMaster', JSON.stringify({name:user.name,email:user.email,token:user.token}))
+                userDispatch({ type: 'LOGIN_SUCCESS', payload: user })
+                localStorage.setItem('quizMaster', JSON.stringify({ name: user.name, email: user.email, token: user.token }))
                 setLoading(false)
                 history.push('/home')
             }
@@ -91,11 +107,12 @@ const Login = () => {
                     {password.err && <span style={style.err}>{password.errMsg}</span>}
                 </Box>
                 <Grid align="center">
-                    <Button sx={{ marginBottom: "0.5rem" }} variant="contained" size="large" onClick={onSubmit} >Login</Button>
+                    <Button sx={{ marginBottom: "0.5rem",paddingLeft:"3rem",paddingRight:"3rem"  }} variant="contained" size="large" onClick={onSubmit} >Login</Button>
+                    <Button type="button" sx={{ marginBottom: "0.5rem"}} variant="contained" size="large" onClick={guestLogin} >Guest Login</Button>
                 </Grid>
                 <Typography align="center" variant="subtitle1">Don't have an account ?<Link to="/signup" >Signup</Link></Typography>
             </Paper>
-           {loading && <Loader loading={loading} />}
+            {loading && <Loader loading={loading} />}
         </Box>
     );
 }

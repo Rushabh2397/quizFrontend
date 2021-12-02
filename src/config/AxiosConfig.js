@@ -13,7 +13,6 @@ import axios from "axios";
     axios.interceptors.request.use(function (req) {
         if (req.url.includes('api')) {
             let user = JSON.parse(localStorage.getItem('quizMaster'))
-            console.log("user",user)
             req.headers.token = user.token;
         }
         return req
